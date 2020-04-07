@@ -7,6 +7,7 @@ package flashcard;
 
 /*Is this working*/
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -135,10 +136,14 @@ public class Flashcard implements ActionListener {
         panel.setBorder(BorderFactory.createEmptyBorder(300, 300, 100, 300));
         panel.setLayout(new GridLayout(0, 1));
         panel.add(question);
-        
+        question.setPreferredSize(new Dimension(500, 16));
         panel.add(button);
         
         panel.add(nextButton);
+        
+        /*String temp = "123456789";
+        JOptionPane.showMessageDialog(frame, temp.length());*/
+        
         nextButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 //fileButton actions
