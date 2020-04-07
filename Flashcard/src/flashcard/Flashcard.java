@@ -127,6 +127,7 @@ public class Flashcard implements ActionListener {
         
         JButton button = new JButton("Flip Card");
         JButton nextButton = new JButton("Next Card");
+        JButton addButton = new JButton("Add Card");
         JButton fileButton = new JButton("Open file...");
         button.addActionListener(this);
         
@@ -150,6 +151,15 @@ public class Flashcard implements ActionListener {
                 prog+= 2;
                question.setText(cardArray.get(prog));
                
+            }
+        });
+        
+        panel.add(addButton);
+addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                //addCard actions
+
+
             }
         });
         
