@@ -5,18 +5,68 @@
  */
 package flashcard;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Kyle
  */
 public class cardWriter extends javax.swing.JFrame {
 
+    static String tempFileName = "d:\\Documents\\GitHub\\FlashcardFinal\\temp.txt"; //Location of GitHub Rep
+    static File tempFile = new File(tempFileName);
+    private ArrayList <String> flashCardPack = new ArrayList<String>();
+    
     /**
      * Creates new form cardWriter
      */
     public cardWriter() {
         initComponents();
         this.setTitle("Flash Card Maker v1.0");
+        
+        
+        
+        //DON'T FORGET TO DELETE TEMP
+    }
+    
+    public void writeToDisk() throws IOException{
+        String outputLine = "";
+        try {
+            tempFile.createNewFile();
+        } catch (IOException iOException) {
+            tempFile.delete();
+            tempFile.createNewFile();
+        }
+        
+        /*if(finish == true){
+        //cardWrite.close();
+        }
+        else{*/
+        try {
+            FileWriter cardWrite = new FileWriter(tempFile);
+            for(int x=0; x < flashCardPack.size(); x+= 2){
+            outputLine = String.format("%s~%s\n", flashCardPack.get(x), flashCardPack.get(x+1));
+            cardWrite.write(outputLine);
+            }
+            cardWrite.flush();
+            cardWrite.close();
+            cardWrite.close();
+            
+        } catch (IOException ex) {
+            //Logger.getLogger(CompanyGUI.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Cannot write to temp.txt\n" + ex.getMessage(),
+            "FileIO Error", JOptionPane.ERROR_MESSAGE);
+        }
+        //}
     }
 
     /**
@@ -36,6 +86,7 @@ public class cardWriter extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         finishButton = new javax.swing.JButton();
         nextButton = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,11 +101,23 @@ public class cardWriter extends javax.swing.JFrame {
         jLabel3.setText("Side 2: ");
 
         finishButton.setText("Finish");
+        finishButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                finishButtonActionPerformed(evt);
+            }
+        });
 
         nextButton.setText("Next card");
         nextButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nextButtonActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Return to Card Viewer");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -72,11 +135,14 @@ public class cardWriter extends javax.swing.JFrame {
                             .addComponent(jLabel3))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(inputSide2)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 327, Short.MAX_VALUE)
-                        .addComponent(nextButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(finishButton))))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(nextButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(finishButton))))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -93,7 +159,9 @@ public class cardWriter extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(finishButton)
                     .addComponent(nextButton))
-                .addContainerGap(89, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -125,8 +193,60 @@ public class cardWriter extends javax.swing.JFrame {
 
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
         // TODO add your handling code here:
+        flashCardPack.add(this.inputSide1.getText());
+        flashCardPack.add(this.inputSide2.getText());
         
+        this.inputSide1.setText("");
+        this.inputSide2.setText("");
     }//GEN-LAST:event_nextButtonActionPerformed
+
+    private void finishButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finishButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+            writeToDisk();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Save failed " + ex.toString());
+        }
+        
+        
+        try{
+            String fileName = "NewFlashCard.txt";
+            File saveFile = new File(fileName);
+            
+            JFileChooser save = new JFileChooser();
+            save.setSelectedFile(saveFile);
+            int button = save.showSaveDialog(this);
+            if(button == JFileChooser.APPROVE_OPTION){
+                //Clicked save
+                fileName = save.getSelectedFile().toString();
+                //full path
+                FileOutputStream pSave = new FileOutputStream(fileName);
+                Files.copy(tempFile.toPath(), pSave);
+                
+                
+                pSave.close();
+                flashCardPack = new ArrayList<String>();
+                tempFile.delete();
+            }
+            else{
+                //Clicked cancel
+                
+            }
+            
+        }
+        catch(Exception ex){
+            JOptionPane.showMessageDialog(this, "Save failed " + ex.toString());
+        }
+        
+    }//GEN-LAST:event_finishButtonActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        //Flashcard backTo = new Flashcard();
+        tempFile.delete();
+        dispose();
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -167,6 +287,7 @@ public class cardWriter extends javax.swing.JFrame {
     private javax.swing.JButton finishButton;
     private javax.swing.JTextField inputSide1;
     private javax.swing.JTextField inputSide2;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
