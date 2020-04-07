@@ -127,7 +127,9 @@ public class Flashcard implements ActionListener {
         
         JButton button = new JButton("Flip Card");
         JButton nextButton = new JButton("Next Card");
+        JButton addButton = new JButton("Add Card");
         JButton fileButton = new JButton("Open file...");
+        JButton createFileButton = new JButton("Create new set of Flash cards");
         button.addActionListener(this);
         
         question = new JLabel("A question for the flashcard");
@@ -153,6 +155,15 @@ public class Flashcard implements ActionListener {
             }
         });
         
+        panel.add(addButton);
+addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                //addCard actions
+
+
+            }
+        });
+        
         panel.add(fileButton);
         fileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -160,6 +171,15 @@ public class Flashcard implements ActionListener {
                selectTheFile(); 
                question.setText(cardArray.get(prog));
                
+            }
+        });
+        
+        panel.add(createFileButton);
+createFileButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                //CreateFile actions
+
+
             }
         });
         
