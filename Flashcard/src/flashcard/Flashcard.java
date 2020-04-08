@@ -88,6 +88,8 @@ public class Flashcard implements ActionListener {
         pathToFile = fs.getPath(cardFile.getPath());
         card openedCard;
         String line = "";
+        cardArray = new ArrayList<String>(); 
+        prog = 0; 
         
         try {
             cardIn = Files.newInputStream(pathToFile);
