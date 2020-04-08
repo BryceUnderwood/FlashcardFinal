@@ -23,6 +23,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -41,6 +42,7 @@ public class Flashcard implements ActionListener {
     private JLabel question;
     private JFrame frame;
     private JPanel panel;
+    private JComboBox markBox;
     private final JFileChooser openFileChooser;
     private File cardFile;
     private BufferedReader cardReader;
@@ -48,6 +50,7 @@ public class Flashcard implements ActionListener {
     private Path pathToFile;
     private InputStream cardIn = null;
     private ArrayList <String> cardArray = new ArrayList<String>();
+    private ArrayList <String> markedCards = new ArrayList<String>();
     private int index = 0;
     
     public void selectTheFile(){
@@ -127,7 +130,7 @@ public class Flashcard implements ActionListener {
         
         JButton button = new JButton("Flip Card");
         JButton nextButton = new JButton("Next Card");
-        JButton addButton = new JButton("Add Card");
+        JButton addButton = new JButton("Mark card for later");
         JButton fileButton = new JButton("Open file...");
         JButton createFileButton = new JButton("Create new sets of Flash Cards");
         button.addActionListener(this);
@@ -159,8 +162,11 @@ public class Flashcard implements ActionListener {
         addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 //addCard actions
-
-
+                markedCards.add(cardArray.get(prog));
+                markedCards.add(cardArray.get(prog+1));
+                //markBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+                JOptionPane.showMessageDialog(frame, "Card Marked");
+                
             }
         });
         

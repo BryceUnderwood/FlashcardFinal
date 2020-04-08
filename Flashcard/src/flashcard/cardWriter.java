@@ -33,9 +33,6 @@ public class cardWriter extends javax.swing.JFrame {
         initComponents();
         this.setTitle("Flash Card Maker v1.0");
         
-        
-        
-        //DON'T FORGET TO DELETE TEMP
     }
     
     public void writeToDisk() throws IOException{
@@ -62,7 +59,6 @@ public class cardWriter extends javax.swing.JFrame {
             cardWrite.close();
             
         } catch (IOException ex) {
-            //Logger.getLogger(CompanyGUI.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "Cannot write to temp.txt\n" + ex.getMessage(),
             "FileIO Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -136,7 +132,7 @@ public class cardWriter extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(inputSide2)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 327, Short.MAX_VALUE)
+                        .addGap(104, 330, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -176,7 +172,7 @@ public class cardWriter extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(91, 91, 91)
                         .addComponent(jLabel2)))
-                .addContainerGap(93, Short.MAX_VALUE))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
