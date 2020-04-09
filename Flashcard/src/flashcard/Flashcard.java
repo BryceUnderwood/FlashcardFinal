@@ -22,6 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -42,7 +43,11 @@ public class Flashcard implements ActionListener {
     private JLabel question;
     private JFrame frame;
     private JPanel panel;
-    private JComboBox markBox;
+    private String side1 = "";
+    private String side2 = "";
+    private DefaultComboBoxModel cardBox = new DefaultComboBoxModel<>();
+    private JComboBox<String> markBox = new JComboBox<String>(cardBox);
+    private boolean found = false;
     private final JFileChooser openFileChooser;
     private File cardFile;
     private BufferedReader cardReader;
@@ -52,6 +57,7 @@ public class Flashcard implements ActionListener {
     private ArrayList <String> cardArray = new ArrayList<String>();
     private ArrayList <String> markedCards = new ArrayList<String>();
     private int index = 0;
+    
     
     public void selectTheFile(){
             int returnValue = openFileChooser.showOpenDialog(frame);
@@ -141,7 +147,7 @@ public class Flashcard implements ActionListener {
         
         panel = new JPanel();
         panel.setBorder(BorderFactory.createEmptyBorder(300, 300, 100, 300));
-        panel.setLayout(new GridLayout(0, 1));
+        panel.setLayout(new GridLayout(0, 2));
         panel.add(question);
         question.setPreferredSize(new Dimension(500, 16));
         panel.add(button);
@@ -154,9 +160,31 @@ public class Flashcard implements ActionListener {
         nextButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 //fileButton actions
-                prog+= 2;
-               question.setText(cardArray.get(prog));
+                if(found == true){
+                    question.setText(side1);
+                }else{
+                    prog+= 2;
+                    question.setText(cardArray.get(prog));
+                }
+                
                
+            }
+        });
+        panel.add(markBox);
+        markBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                //markBox actions
+                side1 = markBox.getSelectedItem().toString();
+                for(int i = 0; found == true; i++){
+                found = false;
+                found = markedCards.get(i).equals(markBox.getSelectedItem());
+                if(found == true){
+                    side2 = markedCards.get(i+1);
+                    //cardBox.addElement(carsArray.get(i+1).toString());
+                }
+                
+            }
+                question.setText(side1);
             }
         });
         
@@ -166,7 +194,8 @@ public class Flashcard implements ActionListener {
                 //addCard actions
                 markedCards.add(cardArray.get(prog));
                 markedCards.add(cardArray.get(prog+1));
-                //markBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+                cardBox.addElement(cardArray.get(prog));
+                markBox.setModel(cardBox);
                 JOptionPane.showMessageDialog(frame, "Card Marked");
                 
             }
@@ -211,12 +240,17 @@ public class Flashcard implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        count++;
-        try {
-            question.setText(cardArray.get(prog+1));
-        } catch (Exception ec) {
-            question.setText("Answer to the question");
+        if(found == true){
+                    question.setText(side2);
+                }else{
+            count++;
+            try {
+                question.setText(cardArray.get(prog+1));
+            } catch (Exception ec) {
+                question.setText("Answer to the question");
+            }
         }
+        
     }
     
 }

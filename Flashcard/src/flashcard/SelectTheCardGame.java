@@ -16,6 +16,7 @@ public class SelectTheCardGame extends javax.swing.JFrame {
      */
     public SelectTheCardGame() {
         initComponents();
+        this.setTitle("Game");
     }
 
     /**
@@ -28,6 +29,7 @@ public class SelectTheCardGame extends javax.swing.JFrame {
     private void initComponents() {
 
         jSlider1 = new javax.swing.JSlider();
+        test = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -39,6 +41,13 @@ public class SelectTheCardGame extends javax.swing.JFrame {
         jSlider1.setSnapToTicks(true);
         jSlider1.setValue(3);
 
+        test.setText("jLabel1");
+        test.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                testMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -47,17 +56,28 @@ public class SelectTheCardGame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jSlider1, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(278, 278, 278)
+                .addComponent(test)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(136, Short.MAX_VALUE)
+                .addContainerGap(102, Short.MAX_VALUE)
+                .addComponent(test)
+                .addGap(18, 18, 18)
                 .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(150, 150, 150))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void testMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_testMouseClicked
+        // TODO add your handling code here:
+        test.setText("Working");
+    }//GEN-LAST:event_testMouseClicked
 
     /**
      * @param args the command line arguments
@@ -96,5 +116,6 @@ public class SelectTheCardGame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSlider jSlider1;
+    private javax.swing.JLabel test;
     // End of variables declaration//GEN-END:variables
 }
