@@ -136,6 +136,7 @@ public class Flashcard implements ActionListener {
         
         frame = new JFrame();
         
+        JButton resetButton = new JButton("Reset Cards");
         JButton button = new JButton("Flip Card");
         JButton nextButton = new JButton("Next Card");
         JButton addButton = new JButton("Mark card for later");
@@ -150,35 +151,44 @@ public class Flashcard implements ActionListener {
         panel.setLayout(new GridLayout(0, 2));
         panel.add(question);
         question.setPreferredSize(new Dimension(500, 16));
+        panel.add(resetButton);
         panel.add(button);
         
         panel.add(nextButton);
         
         /*String temp = "123456789";
         JOptionPane.showMessageDialog(frame, temp.length());*/
-        
+        resetButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                prog = 0;
+                question.setText(cardArray.get(prog));
+            }
+        });
         nextButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 //fileButton actions
-                if(found == true){
-                    question.setText(side1);
+                /*if(found == true){
+                question.setText(side1);
                 }else{
-                    prog+= 2;
-                    question.setText(cardArray.get(prog));
-                }
-                
-               
+                prog+= 2;
+                question.setText(cardArray.get(prog));
+                }*/
+                prog+= 2;
+                question.setText(cardArray.get(prog));
             }
         });
+        
         panel.add(markBox);
         markBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 //markBox actions
-                side1 = markBox.getSelectedItem().toString();
-                for(int i = 0; found == true; i++){
                 found = false;
-                found = markedCards.get(i).equals(markBox.getSelectedItem());
-                if(found == true){
+                side1 = markBox.getSelectedItem().toString();
+                for(int i = 0; i < markedCards.size(); i++){
+                    
+                if(markedCards.get(i).equals(markBox.getSelectedItem().toString())){
+                    found = true;
+                    //System.out.println("fires");
                     side2 = markedCards.get(i+1);
                     //cardBox.addElement(carsArray.get(i+1).toString());
                 }
@@ -241,6 +251,7 @@ public class Flashcard implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(found == true){
+            found = false;
                     question.setText(side2);
                 }else{
             count++;
